@@ -4,22 +4,26 @@ window.onload = function () {
     let morpion = new MyMorpionXO();
 }
 
-function MyMorpionXO(){
+function MyMorpionXO() {
     this.playerPlaying = "X";
     this.createMorpion();
 }
 
-MyMorpionXO.prototype.createMorpion = function (){
+MyMorpionXO.prototype.createMorpion = function () {
+    let zones = ["A", "B", "C"];
+    let playerPlaying = this.playerPlaying;
+    let board = this;
     this.board = document.createElement("table");
-    for(let y=0;y<3;y++){
+
+    for (let y = 1; y < 4; y++) {
         let tr = document.createElement("tr");
-        for(let x=0;x<3;x++){
+        for (let x = 0; x < 3; x++) {
             let td = document.createElement("td");
             td.style.padding = "25px";
             td.style.border = "1px solid black";
-            td.addEventListener('click', function(){
-                td.innerHTML = this.playerPlaying;
-                this.doesGameEnds();
+            td.id = zones[x] + y.toString();
+            td.addEventListener('click', function () {
+                board.write(td)
             })
             tr.appendChild(td);
         }
@@ -29,13 +33,74 @@ MyMorpionXO.prototype.createMorpion = function (){
 
 }
 
-MyMorpionXO.prototype.nextTurn = function(){
-    this.playerPlaying = this.playerPlaying == "X" ? "0" : "X";
-
+MyMorpionXO.prototype.write = function (td) {
+    if (td.innerText !== "") {
+        alert("Case déjà cliquée");
+        return;
+    }
+    td.innerText = this.playerPlaying;
+    setTimeout(() => {
+        this.nextTurn();
+    }, 200);
 }
 
-MyMorpionXO.prototype.doesGameEnds = function(){
-  
+MyMorpionXO.prototype.nextTurn = function () {
+    let gameEnds = this.doesGameEnds();
+    if (!gameEnds && gameEnds != null) {
+        this.playerPlaying = this.playerPlaying == "X" ? "0" : "X";
+    } else {
+        if (gameEnds == null) {
+            alert("Personne n'a gagné");
+        } else {
+            alert(this.playerPlaying + " a gagné");
+        }
+        document.querySelectorAll("td").forEach(function (td) {
+            td.innerHTML = "";
+        });
+    }
+}
+/**
+ * 
+ */
+MyMorpionXO.prototype.doesGameEnds = function () {
+    let one = document.querySelector('#A1').textContent;
+    let two = document.querySelector('#A2').textContent
+    let three = document.querySelector('#A3').textContent;
+    let four = document.querySelector('#B1').textContent;
+    let five = document.querySelector('#B2').textContent;
+    let six = document.querySelector('#B3').textContent;
+    let seven = document.querySelector('#C1').textContent;
+    let eight = document.querySelector('#C2').textContent;
+    let nine = document.querySelector('#C3').textContent;
+    if (one == this.playerPlaying && two == this.playerPlaying && three == this.playerPlaying
+        || four === this.playerPlaying && five == this.playerPlaying && six == this.playerPlaying
+        || seven == this.playerPlaying && eight == this.playerPlaying && nine == this.playerPlaying
+        || one == this.playerPlaying && five == this.playerPlaying && nine == this.playerPlaying
+        || three == this.playerPlaying && five == this.playerPlaying && seven == this.playerPlaying
+        || one == this.playerPlaying && four == this.playerPlaying && seven == this.playerPlaying
+        || two == this.playerPlaying && five == this.playerPlaying && eight == this.playerPlaying
+        || three == this.playerPlaying && six == this.playerPlaying && nine == this.playerPlaying) {
+        return true;
+    } else {
+        if (checkAllFilled()) {
+            return null;
+        }
+        return false;
+    }
+    function checkAllFilled() {
+        let tests = Array.from(document.querySelectorAll("td")).reduce(reducer);
+        function reducer(test, td) {
+            if (td.innerText == "") {
+                return "";
+            }
+            return test + "1";
+        }
+
+        if (tests.replace("[object HTMLTableCellElement]", "").length == 8) {
+            return true;
+        }
+    }
+
 }
 
 
