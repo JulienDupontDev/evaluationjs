@@ -4,7 +4,7 @@ window.onload = generateForm;
 
 /**
 *
-*/
+*/ 
 function generateForm() {
     console.log("coucou")
     var form = document.createElement("form");
