@@ -1,9 +1,17 @@
 'use strict';
 
+/**
+ * Charges au chargement de la page
+ */
 window.onload = function(){
     gridGenerator(5,3);
 } 
 
+/**
+ *  Genere la grille
+ * @param {int} xAxis 
+ * @param {int} yAxis 
+ */
 function gridGenerator(xAxis,yAxis){
     let table = document.createElement("table");
     for(let y=0;y<yAxis;y++){
@@ -24,6 +32,9 @@ function gridGenerator(xAxis,yAxis){
     document.querySelector('body').appendChild(table);
 }
 
+/**
+ * @returns {string} random color
+ */
 var generateColor = function () {
 
     var letters = '0123456789ABCDEF';

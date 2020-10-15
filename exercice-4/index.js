@@ -4,6 +4,9 @@ window.onload = function () {
     renderWorldMap();
 }
 
+/**
+ * Adds event listeners to map elements
+ */
 function renderWorldMap() {
     let countries = document.querySelectorAll("path");
     countries.forEach(function (country) {

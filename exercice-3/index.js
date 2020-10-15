@@ -3,12 +3,18 @@
 window.onload = function () {
     let morpion = new MyMorpionXO();
 }
-
+/**
+ * Class Morpion
+ * @class morpion
+ */
 function MyMorpionXO() {
     this.playerPlaying = "X";
     this.createMorpion();
 }
 
+/**
+ * Cree le morpion et ses elements
+ */
 MyMorpionXO.prototype.createMorpion = function () {
     let zones = ["A", "B", "C"];
     let playerPlaying = this.playerPlaying;
@@ -33,6 +39,10 @@ MyMorpionXO.prototype.createMorpion = function () {
 
 }
 
+/**
+ * Permet de gérer le comportement lors du clic sur une case
+ * @param {Object} td 
+ */
 MyMorpionXO.prototype.write = function (td) {
     if (td.innerText !== "") {
         alert("Case déjà cliquée");
@@ -43,7 +53,9 @@ MyMorpionXO.prototype.write = function (td) {
         this.nextTurn();
     }, 200);
 }
-
+/**
+ * Lancer le tour suivant
+ */
 MyMorpionXO.prototype.nextTurn = function () {
     let gameEnds = this.doesGameEnds();
     if (!gameEnds && gameEnds != null) {
@@ -60,7 +72,8 @@ MyMorpionXO.prototype.nextTurn = function () {
     }
 }
 /**
- * 
+ * Verifies si la partie est finie
+ * @returns {boolean || null}
  */
 MyMorpionXO.prototype.doesGameEnds = function () {
     let one = document.querySelector('#A1').textContent;
